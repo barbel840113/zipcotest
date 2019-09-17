@@ -18,10 +18,10 @@ namespace UserManagement.API.ViewModel
 
         [Required]
         [Range(0, double.MaxValue,ErrorMessage = "Monthly Salary must be positive number")]
-        public decimal MonthlySalary { get; set; }
+        public double MonthlySalary { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Monthly Expenses must be positive number")]
-        public decimal MonthlyExpenses { get; set; }
+        public double MonthlyExpenses { get; set; }
     }
 }

@@ -38,7 +38,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_HTTPS_PORT=44340     
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sql.data;Database=MZipCoTest.Services.UserManagementDb;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sql.data;Database=ZipCoTest.Services.UserManagementDb;User Id=sa;Password=Pass@word
     ports:
       - "65025:80"
       - "44340:443"

@@ -39,8 +39,8 @@ namespace UserManagement.API.Extensions
             var orchestratorType = configuration.GetValue<string>("OrchestratorType");         
 
             return services;
-        }
-
+        }        
+      
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
@@ -85,7 +85,7 @@ namespace UserManagement.API.Extensions
 
         public static IServiceCollection AddUserManagementCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<UserManagementContext>(options =>
+           services.AddDbContext<UserManagementContext>(options =>
             {
                 options.UseSqlServer(configuration["ConnectionString"],
                                      sqlServerOptionsAction: sqlOptions =>
@@ -159,7 +159,8 @@ namespace UserManagement.API.Extensions
         }
 
         public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
-        {
+        {          
+
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 

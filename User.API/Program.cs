@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using IntegrationEventDB;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Serilog;
-using UserManagement.API.API.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using UserManagement.API.API.Infrastructure.DBContext;
+using Microsoft.Extensions.Hosting;
+
 namespace UserManagement.API.API
 {
     public class Program
@@ -28,10 +29,12 @@ namespace UserManagement.API.API
             try
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", ProgramName);
-                var host = BuildWebHost(configuration, args);
+                var host = BuildWebHost(configuration, args);                          
 
                 Log.Information("Applying migrations ({ApplicationContext})...", ProgramName);
-                host.MigrateDbContext<UserManagementContext>((context, services) =>              {
+                
+                host.MigrateDbContext<UserManagementContext>((context, services) =>
+                {
                     // Seed Database if apply
                 })
                 .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
@@ -40,7 +43,8 @@ namespace UserManagement.API.API
                 host.Run();
 
                 return 0;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Log.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", ProgramName);
                 return 1;
@@ -48,7 +52,7 @@ namespace UserManagement.API.API
             finally
             {
                 Log.CloseAndFlush();
-            }         
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -61,7 +65,7 @@ namespace UserManagement.API.API
             var builder = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-               .AddEnvironmentVariables();        
+               .AddEnvironmentVariables();
 
             return builder.Build();
         }
@@ -82,8 +86,9 @@ namespace UserManagement.API.API
         }
 
         private static IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
-           WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args)
                .CaptureStartupErrors(false)
+               .ConfigureServices(x => x.AddAutofac())
                .UseStartup<Startup>()
                .UseApplicationInsights()
                .UseContentRoot(Directory.GetCurrentDirectory())
@@ -91,5 +96,6 @@ namespace UserManagement.API.API
                .UseConfiguration(configuration)
                .UseSerilog()
                .Build();
+             
     }
 }

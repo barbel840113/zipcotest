@@ -21,14 +21,15 @@ namespace Microsoft.AspNetCore.Hosting
                 var context = services.GetService<TContext>();
 
                 try
-                {
+                {                  
+
                     logger.LogInformation("Migrating database associated with context {DbContextName}", typeof(TContext).Name);
                     var retry = Policy.Handle<SqlException>()
                                                  .WaitAndRetry(new TimeSpan[]
                                                  {
                              TimeSpan.FromSeconds(3),
-                             TimeSpan.FromSeconds(5),
-                             TimeSpan.FromSeconds(8),
+                             TimeSpan.FromSeconds(10),
+                             TimeSpan.FromSeconds(20),
                                                  });
 
 

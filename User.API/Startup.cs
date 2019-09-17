@@ -70,7 +70,8 @@ namespace UserManagement.API.API
               .UseSwaggerUI(c =>
               {
                   c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Catalog.API V1");
-              });
+              });          
+
 
             ConfigureEventBus(app);
         }

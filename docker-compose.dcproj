@@ -5,8 +5,8 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>457fe7de-139d-4c9b-a9df-f04eb27003cb</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/values</DockerServiceUrl>
-    <DockerServiceName>account.api</DockerServiceName>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/usermanagement</DockerServiceUrl>
+    <DockerServiceName>user.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

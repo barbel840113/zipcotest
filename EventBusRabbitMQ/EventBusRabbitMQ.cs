@@ -1,8 +1,22 @@
 ﻿using Autofac;
+using EventBusLibrary.Events;
+using EventBusLibrary.Extensions;
+using EventBusLibrary.Interfaces;
+using EventBusLibrary.Subscriptions;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Polly;
+using Polly.Retry;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using System;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EventBusRabbitMQ
+namespace EventBusRabbitMQLibrary
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {
@@ -10,25 +24,25 @@ namespace EventBusRabbitMQ
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<EventBusRabbitMQ> _logger;
-        private readonly IEventBusSubscriptionsManager _subsManager;
+        private readonly IEventBusSubscriptionManager _subsManager;
         private readonly ILifetimeScope _autofac;
-        private readonly string AUTOFAC_SCOPE_NAME = "eshop_event_bus";
+        private readonly string AUTOFAC_SCOPE_NAME = "zipcotest_event_bus";
         private readonly int _retryCount;
 
         private IModel _consumerChannel;
         private string _queueName;
 
         public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger,
-            ILifetimeScope autofac, IEventBusSubscriptionsManager subsManager, string queueName = null, int retryCount = 5)
+            ILifetimeScope autofac, IEventBusSubscriptionManager subsManager, string queueName = null, int retryCount = 5)
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
+            _subsManager = subsManager ?? new SubscriptionManagerInMemory();
             _queueName = queueName;
-            _consumerChannel = CreateConsumerChannel();
+            _consumerChannel = this.CreateConsumerChannel();
             _autofac = autofac;
             _retryCount = retryCount;
-            _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
+            _subsManager.OnEventRemoved += this.SubsManager_OnEventRemoved;
         }
 
         private void SubsManager_OnEventRemoved(object sender, string eventName)

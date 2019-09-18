@@ -15,6 +15,9 @@ services:
     build:
       context: .
       dockerfile: Services/AccountService/Account.API/Dockerfile
+    depends_on:
+      - sql.data
+      - rabbitmq
 
   user.api:
     image: ${DOCKER_REGISTRY-}userapi

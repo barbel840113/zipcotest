@@ -39,8 +39,8 @@ services:
       - ASPNETCORE_HTTPS_PORT=44340     
       - ConnectionString=Server=sql.data;Database=ZipCoTest.Services.UserManagementDb;User Id=sa;Password=Pass@word
       - EventBusConnection=rabbitmq
-      - EventBusUserName=${ESHOP_SERVICE_BUS_USERNAME}
-      - EventBusPassword=${ESHOP_SERVICE_BUS_PASSWORD}   
+      #- EventBusUserName=${ESHOP_SERVICE_BUS_USERNAME}
+      #- EventBusPassword=${ESHOP_SERVICE_BUS_PASSWORD}   
     ports:
       - "65025:80"
       - "44340:443"

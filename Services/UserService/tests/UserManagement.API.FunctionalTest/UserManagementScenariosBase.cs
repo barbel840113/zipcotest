@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using UserManagement.API.API;
-using UserManagement.API.API.Infrastructure.DBContext;
+using UserManagement.API.API.Infrastructure.DBContexts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

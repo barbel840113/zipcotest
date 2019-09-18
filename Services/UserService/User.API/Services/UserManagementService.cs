@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserManagement.API.API.Controllers;
-using UserManagement.API.API.Infrastructure.DBContext;
+using UserManagement.API.API.Infrastructure.DBContexts;
 using UserManagement.API.API.Model;
-using UserManagement.API.Infrastructure.IntegrationEvents;
+using UserManagement.API.IntegrationEvents;
 using UserManagement.API.ViewModel;
 
 namespace UserManagement.API.Services

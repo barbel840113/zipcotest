@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using IntegrationEventDB;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Microsoft.Extensions.Configuration;
-using UserManagement.API.API.Infrastructure.DBContexts;
 using Microsoft.Extensions.Hosting;
+using Account.API.Infrastructure.DbContexts;
 
-namespace UserManagement.API.API
+namespace Account.API
 {
     public class Program
     {
@@ -29,11 +25,11 @@ namespace UserManagement.API.API
             try
             {
                 Log.Information("Configuring web host ({ApplicationContext})...", ProgramName);
-                var host = BuildWebHost(configuration, args);                          
+                var host = BuildWebHost(configuration, args);
 
                 Log.Information("Applying migrations ({ApplicationContext})...", ProgramName);
-                
-                host.MigrateDbContext<UserManagementContext>((context, services) =>
+
+                host.MigrateDbContext<AccountContext>((context, services) =>
                 {
                     // Seed Database if apply
                 })
@@ -96,6 +92,6 @@ namespace UserManagement.API.API
                .UseConfiguration(configuration)
                .UseSerilog()
                .Build();
-             
+
     }
 }

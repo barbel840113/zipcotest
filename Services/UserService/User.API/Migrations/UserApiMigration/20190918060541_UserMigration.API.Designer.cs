@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserManagement.API.API.Infrastructure.DBContext;
+using UserManagement.API.API.Infrastructure.DBContexts;
 
 namespace UserManagement.API.Migrations.UserApiMigration
 {

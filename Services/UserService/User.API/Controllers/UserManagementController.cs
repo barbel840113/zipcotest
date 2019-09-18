@@ -9,18 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using UserManagement.API.API.Infrastructure.DBContext;
+using UserManagement.API.API.Infrastructure.DBContexts;
 using UserManagement.API.API.Model;
 using UserManagement.API.Infrastructure.Exceptions;
-using UserManagement.API.Infrastructure.IntegrationEvents;
+using UserManagement.API.IntegrationEvents;
 using UserManagement.API.Services;
 using UserManagement.API.ViewModel;
 using System.Data.SqlClient;
 
 namespace UserManagement.API.API.Controllers
 {
-    [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Route("api/[controller]")]   
     [ApiController]
     public class UserManagementController : ControllerBase
     {

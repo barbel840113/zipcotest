@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UserManagement.API.Infrastructure.IntegrationEvents
+namespace Account.API.IntegrationEvents
 {
-    public interface IUserManagementIntegrationEventService
+    public interface IAccountManagementIntegrationEventService
     {
-        Task SaveEventAndCatalogContextChangesAsync(IntegrationEvent evt);
+        Task SaveEventAndAccountContextChangesAsync(IntegrationEvent evt);
         Task PublishThroughEventBusAsync(IntegrationEvent evt);
     }
 }

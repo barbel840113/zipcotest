@@ -14,13 +14,13 @@ services:
     image: ${DOCKER_REGISTRY-}accountapi
     build:
       context: .
-      dockerfile: Account.API/Dockerfile
+      dockerfile: Services/AccountService/Account.API/Dockerfile
 
   user.api:
     image: ${DOCKER_REGISTRY-}userapi
     build:
       context: .
-      dockerfile: User.API/Dockerfile
+      dockerfile: Services/UserService/User.API/Dockerfile
     depends_on:
       - sql.data
       - rabbitmq

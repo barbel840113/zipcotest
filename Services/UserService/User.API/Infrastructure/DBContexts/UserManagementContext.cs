@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UserManagement.API.API.Model;
 using UserManagement.API.Infrastructure.EntityConfiguration;
 
-namespace UserManagement.API.API.Infrastructure.DBContext
+namespace UserManagement.API.API.Infrastructure.DBContexts
 {
     public class UserManagementContext : DbContext
     {

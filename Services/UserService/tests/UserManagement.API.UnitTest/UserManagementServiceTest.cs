@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserManagement.API.API.Infrastructure.DBContext;
+using UserManagement.API.API.Infrastructure.DBContexts;
 using UserManagement.API.API.Model;
 using UserManagement.API.Services;
 using UserManagement.API.ViewModel;

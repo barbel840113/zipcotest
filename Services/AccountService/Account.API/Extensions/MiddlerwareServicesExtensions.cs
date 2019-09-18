@@ -13,21 +13,21 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
-using UserManagement.API.API;
-using UserManagement.API.Infrastructure.Filters;
-using UserManagement.API.IntegrationEvents;
-using UserManagement.API.API.Infrastructure.DBContexts;
-using UserManagement.API.ViewModel;
-using UserManagement.API.API.Model;
-using UserManagement.API.Services;
-using IntegrationEventDB;
-using IntegrationEventDB.Services;
-using EventBusRabbitMQLibrary;
-using EventBusLibrary.Subscriptions;
-using EventBusLibrary.Interfaces;
-using AutoMapper;
 
-namespace UserManagement.API.Extensions
+using AutoMapper;
+using EventBusLibrary.Subscriptions;
+using EventBusRabbitMQLibrary;
+using EventBusLibrary.Interfaces;
+using IntegrationEventDB.Services;
+using IntegrationEventDB;
+using Account.API.Infrastructure.DbContexts;
+using Account.API.Infrastructure.Filters;
+using Account.API.Services;
+using Account.API.IntegrationEvents;
+using Account.API.IntegrationEvents.EventHandlers;
+using Account.API.ViewModels;
+
+namespace Account.API.Extensions
 {
     public static class MiddlerwareServicesExtensions
     {
@@ -41,7 +41,7 @@ namespace UserManagement.API.Extensions
 
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
-            services.AddTransient<IUserManagementService, UserManagementService>();
+            services.AddTransient<IAccountService, AccountService>();
             return services;
         }
       
@@ -64,7 +64,7 @@ namespace UserManagement.API.Extensions
 
         public static IServiceCollection AddCustomUserManagementOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<UserManagementOptions>(configuration);
+            services.Configure<AccountOptions>(configuration);
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
@@ -87,9 +87,9 @@ namespace UserManagement.API.Extensions
         }
 
 
-        public static IServiceCollection AddUserManagementCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAccountCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-           services.AddDbContext<UserManagementContext>(options =>
+           services.AddDbContext<AccountContext>(options =>
             {
                 options.UseSqlServer(configuration["ConnectionString"],
                                      sqlServerOptionsAction: sqlOptions =>
@@ -168,11 +168,12 @@ namespace UserManagement.API.Extensions
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 
-            services.AddTransient<IUserManagementIntegrationEventService, UserManagementIntegrationEventService>();
-       
+            services.AddTransient<AccountIntegrationEventService, AccountIntegrationEventService>();
+            services.AddTransient<IAccountService, AccountService>();
+
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
-                var settings = sp.GetRequiredService<IOptions<UserManagementOptions>>().Value;
+                var settings = sp.GetRequiredService<IOptions<AccountOptions>>().Value;
                 var logger = sp.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
 
                 var factory = new ConnectionFactory()
@@ -225,17 +226,17 @@ namespace UserManagement.API.Extensions
             });
 
             services.AddSingleton<IEventBusSubscriptionManager, SubscriptionManagerInMemory>();
-            //services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            //services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
+            services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
 
             return services;
         }
 
         public static IServiceCollection AddCustomAutoMapper(this IServiceCollection service)
         {
-            var mappingConfiguration = new MapperConfiguration(mc => {
-                mc.CreateMap<List<User>, List<UserViewModel>>();
-                mc.CreateMap<CreateUserViewModel, User>();
+            var mappingConfiguration = new MapperConfiguration(mc =>
+            {
+                mc.CreateMap<List<Account.API.Model.Account>, List<AccountViewModel>>();            
             });
 
             service.AddSingleton(mappingConfiguration.CreateMapper());

@@ -12,15 +12,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using UserManagement.API.Extensions;
+using Account.API.Extensions;
 using Serilog;
 using Microsoft.Extensions.Logging;
 using Autofac.Extensions.DependencyInjection;
 using Autofac;
-using UserManagement.API.IntegrationEvents.Events;
-using UserManagement.API.IntegrationEvents.EventHandlers;
+using Account.API.IntegrationEvents.Events;
+using Account.API.IntegrationEvents.EventHandlers;
 
-namespace UserManagement.API.API
+namespace Account.API
 {
     public class Startup
     {
@@ -35,14 +35,14 @@ namespace UserManagement.API.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCustomMVC(this.Configuration)
-                 .AddUserManagementCustomDbContext(this.Configuration)
-                 .AddCustomServices()
-                .AddCustomUserManagementOptions(this.Configuration)
-                .AddIntegrationServices(this.Configuration)
-                .AddEventBus(this.Configuration)
-                .AddSwagger()
-                .AddCustomAutoMapper()
-                .AddCustomHealthCheck(this.Configuration);
+                .AddAccountCustomDbContext(this.Configuration)
+                .AddCustomServices()
+               .AddCustomUserManagementOptions(this.Configuration)
+               .AddIntegrationServices(this.Configuration)
+               .AddEventBus(this.Configuration)
+               .AddSwagger()
+               .AddCustomAutoMapper()
+               .AddCustomHealthCheck(this.Configuration);
 
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -80,7 +80,7 @@ namespace UserManagement.API.API
               .UseSwaggerUI(c =>
               {
                   c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Catalog.API V1");
-              });          
+              });
 
 
             ConfigureEventBus(app);

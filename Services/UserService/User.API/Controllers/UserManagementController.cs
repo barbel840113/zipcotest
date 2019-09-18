@@ -15,6 +15,7 @@ using UserManagement.API.Infrastructure.Exceptions;
 using UserManagement.API.Infrastructure.IntegrationEvents;
 using UserManagement.API.Services;
 using UserManagement.API.ViewModel;
+using System.Data.SqlClient;
 
 namespace UserManagement.API.API.Controllers
 {
@@ -111,7 +112,12 @@ namespace UserManagement.API.API.Controllers
                     return this.BadRequest();
                 }
 
-                return this.Ok();
+                return this.CreatedAtAction(null,userID.ToString());
+            }
+            // Catch Unique Email Address 
+            catch(DbUpdateException ex) when (ex.InnerException != null &&  ex.InnerException is SqlException sqlEx && sqlEx.Number == 2601)
+            {
+                return this.BadRequest("The User with the same Email Address already exists. Please use different email address");
             }
             catch (Exception ex)
             {

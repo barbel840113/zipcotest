@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserManagement.API.API.Infrastructure.DBContext;
 
-namespace UserManagement.API.Migrations.User.API
+namespace UserManagement.API.Migrations.UserApiMigration
 {
     [DbContext(typeof(UserManagementContext))]
-    [Migration("20190917124512_User.API.Migrations")]
-    partial class UserAPIMigrations
+    [Migration("20190918060541_UserMigration.API")]
+    partial class UserMigrationAPI
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,8 @@ namespace UserManagement.API.Migrations.User.API
 
                     b.Property<decimal>("MonthlySalary");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

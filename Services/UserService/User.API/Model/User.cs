@@ -11,12 +11,19 @@ namespace UserManagement.API.API.Model
     {       
         public Guid Id { get; set; }
 
-        public string Name { get; set; }     
-        
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
+        [Required]
+        [Range(0, double.MaxValue)]
         public decimal MonthlySalary { get; set; }
 
+        [Required]
+        [Range(0, double.MaxValue)]
         public decimal MonthlyExpenses { get; set; }
     }
 }

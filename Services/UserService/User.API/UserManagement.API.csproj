@@ -43,9 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQLibrary.csproj" />
-    <ProjectReference Include="..\IntegrationEventDB\IntegrationEventDB.csproj" />
-    <ProjectReference Include="..\WebHostDatabaseMigration\WebHostDatabaseMigration.csproj" />
+    <ProjectReference Include="..\..\..\EventBusLibrary\EventBusLibrary.csproj" />
+    <ProjectReference Include="..\..\..\EventBusRabbitMQ\EventBusRabbitMQLibrary.csproj" />
+    <ProjectReference Include="..\..\..\IntegrationEventDB\IntegrationEventDB.csproj" />
+    <ProjectReference Include="..\..\..\WebHostDatabaseMigration\WebHostDatabaseMigration.csproj" />
   </ItemGroup>
 
 </Project>

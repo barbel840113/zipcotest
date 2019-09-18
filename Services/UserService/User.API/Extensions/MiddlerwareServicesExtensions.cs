@@ -1,9 +1,4 @@
 ﻿using Autofac;
-using EventBusLibrary.Interfaces;
-using EventBusLibrary.Subscriptions;
-using EventBusRabbitMQLibrary;
-using IntegrationEventDB;
-using IntegrationEventDB.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +12,8 @@ using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using UserManagement.API.API;
-using UserManagement.API.API.Infrastructure;
 using UserManagement.API.Infrastructure.Filters;
 using UserManagement.API.Infrastructure.IntegrationEvents;
 using UserManagement.API.API.Infrastructure.DBContext;
@@ -29,6 +21,11 @@ using AutoMapper;
 using UserManagement.API.ViewModel;
 using UserManagement.API.API.Model;
 using UserManagement.API.Services;
+using IntegrationEventDB;
+using IntegrationEventDB.Services;
+using EventBusRabbitMQLibrary;
+using EventBusLibrary.Subscriptions;
+using EventBusLibrary.Interfaces;
 
 namespace UserManagement.API.Extensions
 {

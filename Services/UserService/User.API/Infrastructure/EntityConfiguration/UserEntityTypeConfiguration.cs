@@ -13,14 +13,13 @@ namespace UserManagement.API.Infrastructure.EntityConfiguration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
-            builder.HasKey(entity => entity.Id);
-
-            // Setup Email Address as required
-            builder.Property(entity => entity.EmailAddress).IsRequired(required: true);
+            builder.HasKey(entity => entity.Id);           
 
             // Setup Unique Index for Email Address
-            builder.HasIndex(entity => entity.EmailAddress)
+            builder.HasIndex(entity => entity.EmailAddress)                
                     .IsUnique(true);
+
+            
         }
     }
 }

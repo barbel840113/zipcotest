@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserManagement.API.API.Infrastructure.DBContext;
 
-namespace UserManagement.API.Migrations.User.API
+namespace UserManagement.API.Migrations.UserApiMigration
 {
     [DbContext(typeof(UserManagementContext))]
     partial class UserManagementContextModelSnapshot : ModelSnapshot
@@ -31,7 +31,8 @@ namespace UserManagement.API.Migrations.User.API
 
                     b.Property<decimal>("MonthlySalary");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

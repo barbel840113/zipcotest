@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace UserManagement.API.Migrations.User.API
+namespace UserManagement.API.Migrations.UserApiMigration
 {
-    public partial class UserAPIMigrations : Migration
+    public partial class UserMigrationAPI : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace UserManagement.API.Migrations.User.API
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     EmailAddress = table.Column<string>(nullable: false),
                     MonthlySalary = table.Column<decimal>(nullable: false),
                     MonthlyExpenses = table.Column<decimal>(nullable: false)

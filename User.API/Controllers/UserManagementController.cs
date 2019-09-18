@@ -13,6 +13,7 @@ using UserManagement.API.API.Infrastructure.DBContext;
 using UserManagement.API.API.Model;
 using UserManagement.API.Infrastructure.Exceptions;
 using UserManagement.API.Infrastructure.IntegrationEvents;
+using UserManagement.API.Services;
 using UserManagement.API.ViewModel;
 
 namespace UserManagement.API.API.Controllers
@@ -22,25 +23,16 @@ namespace UserManagement.API.API.Controllers
     [ApiController]
     public class UserManagementController : ControllerBase
     {
-        private readonly UserManagementContext _userContext;
-        private readonly UserManagementOptions _settings;
+      
+        private readonly IUserManagementService _userManagementService;
         private readonly ILogger<UserManagementController> _logger;
-        private readonly IUserManagementIntegrationEventService _usermanagementIntegrationEventService;
-        private readonly IMapper _autoMapper;
 
-        public UserManagementController(UserManagementContext userContext,
-            IOptionsSnapshot<UserManagementOptions> settings,
-            IMapper autoMapper,
-            IUserManagementIntegrationEventService usermanagementIntegrationEventService)
+        public UserManagementController(IUserManagementService userManagementService, ILogger<UserManagementController> logger)
         {
-            this._userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-            this._usermanagementIntegrationEventService = usermanagementIntegrationEventService ?? throw new ArgumentNullException(nameof(usermanagementIntegrationEventService));
-            _settings = settings.Value;
-            this._autoMapper = autoMapper;
-            // Do not track entity changes
-            this._userContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            
+            this._userManagementService = userManagementService;
+            this._logger = logger;
         }
+
         // GET api/values
         [HttpGet]
         [Route("allusers")]
@@ -51,18 +43,17 @@ namespace UserManagement.API.API.Controllers
             try
             {
                 this._logger.LogInformation(" Retrieving All Users from the Databaqse");
-
-                List<User> userList = await this._userContext.Users.ToListAsync();
-                List<UserViewModel> userViewModelList  = this._autoMapper.Map<List<UserViewModel>>(userList);
+                List<UserViewModel> userViewModelList = await this._userManagementService.GetAllUsersAsync();
 
                 return this.Ok(userViewModelList);
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 this._logger.LogError(" Error has occured while retrieving all users",ex.Message);
                 return this.BadRequest();
             }
-        }
+        }    
 
         // GET api/values/5
         [HttpGet("getuser/{id}")]
@@ -78,13 +69,14 @@ namespace UserManagement.API.API.Controllers
             try
             {
                 this._logger.LogInformation($"Retrieving Information User with {id.Value} from the Databaqse");
-                var user = await this._userContext.Users.SingleOrDefaultAsync(u => u.Id.Equals(id));
 
-                if (user == null || user == default) {
+                var userViewModel = await this._userManagementService.GetUserByIdAsync(id.Value);
+
+                if (userViewModel == null || 
+                    userViewModel == default)
+                {
                     return this.NotFound();
                 }
-
-                UserViewModel userViewModel = this._autoMapper.Map<UserViewModel>(user);
 
                 return this.Ok(userViewModel);
 
@@ -99,7 +91,8 @@ namespace UserManagement.API.API.Controllers
         [Route("user")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
-        public async Task<ActionResult> CreateUserAsync([FromBody] UserViewModel userViewModel)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> CreateUserAsync([FromBody] CreateUserViewModel userViewModel)
         {
             try
             {
@@ -109,19 +102,22 @@ namespace UserManagement.API.API.Controllers
                     return this.BadRequest();
                 }
 
-                this._logger.LogInformation($"Creating User");        
-                User user = this._autoMapper.Map<User>(userViewModel);
+                this._logger.LogInformation($"Creating User");
+                var userID = await this._userManagementService.CreateUserAsync(userViewModel);
 
-                this._userContext.Add(user);
-                await this._userContext.SaveChangesAsync();
+                if(userID == default 
+                  || userID == Guid.Empty)
+                {
+                    return this.BadRequest();
+                }
 
-                return this.Ok(userViewModel);
+                return this.Ok();
             }
             catch (Exception ex)
             {
                 this._logger.LogError(" Error has occured while retrieving all users", ex.Message);
                 return this.BadRequest();
             }
-        }
+        }     
     }
 }

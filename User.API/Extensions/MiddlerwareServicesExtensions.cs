@@ -28,6 +28,7 @@ using UserManagement.API.API.Infrastructure.DBContext;
 using AutoMapper;
 using UserManagement.API.ViewModel;
 using UserManagement.API.API.Model;
+using UserManagement.API.Services;
 
 namespace UserManagement.API.Extensions
 {
@@ -40,6 +41,12 @@ namespace UserManagement.API.Extensions
 
             return services;
         }        
+
+        public static IServiceCollection AddCustomServices(this IServiceCollection services)
+        {
+            services.AddTransient<IUserManagementService, UserManagementService>();
+            return services;
+        }
       
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
@@ -231,6 +238,7 @@ namespace UserManagement.API.Extensions
         {
             var mappingConfiguration = new MapperConfiguration(mc => {
                 mc.CreateMap<List<User>, List<UserViewModel>>();
+                mc.CreateMap<CreateUserViewModel, User>();
             });
 
             service.AddSingleton(mappingConfiguration.CreateMapper());

@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{926E1C90-5F4E-416D-B250-814B397A2EB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.API", "User.API\UserManagement.API.csproj", "{E87C61CC-944E-415B-9CEA-C3BCA458B7A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.API", "User.API\UserManagement.API.csproj", "{E87C61CC-944E-415B-9CEA-C3BCA458B7A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Account", "Account", "{6521BF72-7F15-4CFA-B868-2E746F4C06F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Account.API", "Account.API\Account.API.csproj", "{1F172E5A-6F28-4EEA-B311-9FC4B26E7F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Account.API", "Account.API\Account.API.csproj", "{1F172E5A-6F28-4EEA-B311-9FC4B26E7F17}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{457FE7DE-139D-4C9B-A9DF-F04EB27003CB}"
 EndProject
@@ -19,22 +19,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationCore", "Applicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{7A155F34-734C-40E3-A078-8BFDDE6EA5ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBusRabbitMQLibrary", "EventBusRabbitMQ\EventBusRabbitMQLibrary.csproj", "{6640EEC5-1913-4655-B169-2F171ACC643E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQLibrary", "EventBusRabbitMQ\EventBusRabbitMQLibrary.csproj", "{6640EEC5-1913-4655-B169-2F171ACC643E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBusLibrary", "EventBusLibrary\EventBusLibrary.csproj", "{EC6263AD-F910-45B0-B295-05190CC97880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusLibrary", "EventBusLibrary\EventBusLibrary.csproj", "{EC6263AD-F910-45B0-B295-05190CC97880}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebHostMigration", "WebHostMigration", "{99C572C0-574A-4375-AA09-1FD1BD1002BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHostDatabaseMigration", "WebHostDatabaseMigration\WebHostDatabaseMigration.csproj", "{03A4AB88-BCCC-48BB-B5EB-3957A3750A4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHostDatabaseMigration", "WebHostDatabaseMigration\WebHostDatabaseMigration.csproj", "{03A4AB88-BCCC-48BB-B5EB-3957A3750A4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventDB", "IntegrationEventDB\IntegrationEventDB.csproj", "{04B43D39-3C66-49FF-8A95-352055E071AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventDB", "IntegrationEventDB\IntegrationEventDB.csproj", "{04B43D39-3C66-49FF-8A95-352055E071AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{1223829A-AC42-4704-B6CD-5C3426ECB073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{1223829A-AC42-4704-B6CD-5C3426ECB073}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{312F2E9C-2B29-4A0A-B16B-C06B4DE399DC}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6F70513-6074-4B90-A19D-63058FCE80C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.API.UnitTest", "..\User.API.UnitTest\User.API.UnitTest.csproj", "{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +78,10 @@ Global
 		{1223829A-AC42-4704-B6CD-5C3426ECB073}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1223829A-AC42-4704-B6CD-5C3426ECB073}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1223829A-AC42-4704-B6CD-5C3426ECB073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +98,8 @@ Global
 		{03A4AB88-BCCC-48BB-B5EB-3957A3750A4D} = {99C572C0-574A-4375-AA09-1FD1BD1002BF}
 		{04B43D39-3C66-49FF-8A95-352055E071AD} = {7A155F34-734C-40E3-A078-8BFDDE6EA5ED}
 		{1223829A-AC42-4704-B6CD-5C3426ECB073} = {926E1C90-5F4E-416D-B250-814B397A2EB0}
+		{D6F70513-6074-4B90-A19D-63058FCE80C6} = {926E1C90-5F4E-416D-B250-814B397A2EB0}
+		{E8913264-A34F-4E31-A5E5-2D3D93C3B5EC} = {D6F70513-6074-4B90-A19D-63058FCE80C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C6B215-1738-4139-8F03-7FEB490525DD}

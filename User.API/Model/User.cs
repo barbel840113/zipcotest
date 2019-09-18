@@ -11,8 +11,8 @@ namespace UserManagement.API.API.Model
     {       
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
-     
+        public string Name { get; set; }     
+        
         public string EmailAddress { get; set; }
 
         public decimal MonthlySalary { get; set; }

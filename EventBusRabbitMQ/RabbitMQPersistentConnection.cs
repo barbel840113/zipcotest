@@ -13,7 +13,7 @@ using System.Text;
 namespace EventBusRabbitMQLibrary
 {
     public class RabbitMQPersistentConnection
-      : IRabbitMQPersistentConnection
+      : IRabbitMQPersistentConnection , IDisposable
     {
         private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<RabbitMQPersistentConnection> _logger;

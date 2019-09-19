@@ -229,8 +229,7 @@ namespace Account.API.Extensions
             services.AddSingleton<IEventBusSubscriptionManager, SubscriptionManagerInMemory>();
             services.AddTransient<ConfirmUserAccountForLoanIntegrationEventHandler>();
             services.AddTransient<UserNotFoundEventHandler>();
-            services.AddTransient<RejectAccountLoanForUserEventHandler>();
-
+            services.AddTransient<RejectAccountLoanForUserEventHandler>();       
             return services;
         }
 

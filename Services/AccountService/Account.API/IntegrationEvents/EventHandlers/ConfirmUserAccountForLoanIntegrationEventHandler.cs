@@ -44,19 +44,19 @@ namespace Account.API.IntegrationEvents.EventHandlers
                 try
                 {
                    var accountId =  await this._accountService.CreateAccountForAsync(@event.UserId, @event.Loan, @event.AccountType);
-                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
-                    eventObject.HasSynchronizationFinish = true;
+                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;                   
                     eventObject.Message = "Account has been created";
                     eventObject.NewCreatedAccountId = accountId;
                     eventObject.HttpStatusCode = System.Net.HttpStatusCode.Created;
+                    eventObject.Token.Cancel();
                 }
                 catch
                 {
                     await Task.Delay(1);
-                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
-                    eventObject.HasSynchronizationFinish = true;
+                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;                   
                     eventObject.Message = "There was an error while creating account";                    
                     eventObject.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                    eventObject.Token.Cancel();
                 }               
 
             }

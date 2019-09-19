@@ -37,10 +37,10 @@ namespace Account.API.IntegrationEvents.EventHandlers
                 _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.ProgramName, @event);
 
                 await Task.Delay(1);
-                var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
-                eventObject.HasSynchronizationFinish = true;
+                var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;                
                 eventObject.Message = "User has not enought money";
                 eventObject.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                eventObject.Token.Cancel();
             }
         }
     }

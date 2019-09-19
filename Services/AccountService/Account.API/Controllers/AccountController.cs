@@ -76,7 +76,7 @@ namespace Account.API.Controllers
                 var trackingEventId = Guid.NewGuid();
                 checkUserSalaryPackage.EventIdSynchronizationId = trackingEventId;
 
-                this._eventBusSynchronizationService.EventSynchronizationList.Add(trackingEventId, new SynchronizationDetails { HasSynchronizationFinish = false });
+                this._eventBusSynchronizationService.EventSynchronizationList.Add(trackingEventId, new SynchronizationDetails { Token = new System.Threading.CancellationTokenSource() });
                 await this._accountManagementIntegrationEventService.SaveEventAndAccountContextChangesAsync(checkUserSalaryPackage);
                 await this._accountManagementIntegrationEventService.PublishThroughEventBusAsync(checkUserSalaryPackage);
 

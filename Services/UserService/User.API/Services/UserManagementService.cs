@@ -41,8 +41,8 @@ namespace UserManagement.API.Services
 
         public async Task<List<UserViewModel>> GetAllUsersAsync()
         {
-            List<User> userList = await this._userContext.Users.ToListAsync();
-            List<UserViewModel> userViewModelList = this._autoMapper.Map<List<UserViewModel>>(userList);
+            var userList = await this._userContext.Users.ToListAsync();
+            var userViewModelList = this._autoMapper.Map<User[],List<UserViewModel>>(userList.ToArray());
             return userViewModelList; 
         }
 

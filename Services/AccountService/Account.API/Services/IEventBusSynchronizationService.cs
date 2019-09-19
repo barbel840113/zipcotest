@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Account.API.Services
@@ -13,15 +14,21 @@ namespace Account.API.Services
         Dictionary<Guid, SynchronizationDetails> EventSynchronizationList { get; set; }
     }
 
-    public class SynchronizationDetails
-    {
-        public bool HasSynchronizationFinish { get; set; }
+    public class SynchronizationDetails : IDisposable
+    {       
+
+        public CancellationTokenSource Token { get; set; }
 
         public string Message { get; set; }
 
         public HttpStatusCode HttpStatusCode { get; set; }
 
         public Guid NewCreatedAccountId { get; set; }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

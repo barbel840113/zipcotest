@@ -236,6 +236,7 @@ namespace UserManagement.API.Extensions
             var mappingConfiguration = new MapperConfiguration(mc => {
                 mc.CreateMap<List<User>, List<UserViewModel>>();
                 mc.CreateMap<CreateUserViewModel, User>();
+                mc.CreateMap<User, UserViewModel>();
             });
 
             service.AddSingleton(mappingConfiguration.CreateMapper());

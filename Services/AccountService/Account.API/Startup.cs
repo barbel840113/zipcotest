@@ -91,7 +91,7 @@ namespace Account.API
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<ConfirmUserAccountForLoanIntegrationEvent, ConfirmUserAccountForLoanIntegrationEventHandler>();
             eventBus.Subscribe<RejectAccountLoanForUserEvent, RejectAccountLoanForUserEventHandler>();
-            eventBus.Subscribe<UserNotFoundEvent, UserNotFoundEventHandler>();
+            eventBus.Subscribe<UserNotFoundEvent, UserNotFoundEventHandler>();            
         }
     }
 }

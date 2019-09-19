@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Account.API.Services
@@ -18,20 +19,22 @@ namespace Account.API.Services
 
         public async Task CheckIFHasSynchronizationFinish(Guid eventId)
         {
+           
             var findEvent = this.EventSynchronizationList.Where(x => x.Key.Equals(eventId)).FirstOrDefault();
 
-            var value = findEvent.Value;
-           
-            while (!value.HasSynchronizationFinish)
-            { 
-                // enough to synchronize
-                await Task.Delay(5000);
-                if (!value.HasSynchronizationFinish)
+            try
+            {
+                while (!findEvent.Value.Token.IsCancellationRequested)
                 {
-                    value.HasSynchronizationFinish = true;
+                    await Task.Delay(1, findEvent.Value.Token.Token);
                 }
+            }
+            catch(Exception ex)
+            {
 
             }
+           
+           
         }       
     }
 }

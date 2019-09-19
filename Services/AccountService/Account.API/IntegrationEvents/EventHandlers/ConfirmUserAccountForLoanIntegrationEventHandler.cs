@@ -1,5 +1,6 @@
 ﻿using Account.API.Infrastructure.DbContexts;
 using Account.API.IntegrationEvents.Events;
+using Account.API.Services;
 using EventBusLibrary.Interfaces;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
@@ -16,14 +17,20 @@ namespace Account.API.IntegrationEvents.EventHandlers
         private readonly AccountContext _accountContext;
         private readonly IAccountIntegrationEventService _accountIntegrationEventService;
         private readonly ILogger<ConfirmUserAccountForLoanIntegrationEventHandler> _logger;
+        private readonly IAccountService _accountService;
+        private readonly IEventBusSynchronizationService _eventBusSynchronizationService;
 
         public ConfirmUserAccountForLoanIntegrationEventHandler(
             AccountContext accountContext,
+            IAccountService accountService,
             IAccountIntegrationEventService userIntegrationEventService,
+            IEventBusSynchronizationService eventBusSynchronizationService,
             ILogger<ConfirmUserAccountForLoanIntegrationEventHandler> logger)
         {
             _accountContext = accountContext;
+            this._accountService = accountService;
             _accountIntegrationEventService = userIntegrationEventService;
+            this._eventBusSynchronizationService = eventBusSynchronizationService;
             _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
         }
 
@@ -33,13 +40,24 @@ namespace Account.API.IntegrationEvents.EventHandlers
             {
                 _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.ProgramName, @event);
 
-                //var confirmedIntegrationEvent = confirmedOrderStockItems.Any(c => !c.HasStock)
-                //    ? (IntegrationEvent)new OrderStockRejectedIntegrationEvent(@event.OrderId, confirmedOrderStockItems)
-                //    : new OrderStockConfirmedIntegrationEvent(@event.OrderId);
-                //var confirmedIntegrationEvent = new OrderStatusChangedToPaidIntegrationEvent(@event.UserId, @event.loan);
-
-                //await this._accountIntegrationEventService.SaveEventAndAccountContextChangesAsync(confirmedIntegrationEvent);
-                //await this._accountIntegrationEventService.PublishThroughEventBusAsync(confirmedIntegrationEvent);
+                // create user
+                try
+                {
+                   var accountId =  await this._accountService.CreateAccountForAsync(@event.UserId, @event.Loan, @event.AccountType);
+                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
+                    eventObject.HasSynchronizationFinish = true;
+                    eventObject.Message = "Account has been created";
+                    eventObject.NewCreatedAccountId = accountId;
+                    eventObject.HttpStatusCode = System.Net.HttpStatusCode.Created;
+                }
+                catch
+                {
+                    await Task.Delay(1);
+                    var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
+                    eventObject.HasSynchronizationFinish = true;
+                    eventObject.Message = "There was an error while creating account";                    
+                    eventObject.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+                }               
 
             }
         }

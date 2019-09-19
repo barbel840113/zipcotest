@@ -45,11 +45,9 @@ namespace Account.API.Controllers
             try
             {
                 this._logger.LogInformation(" Retrieving All Account from the Databaqse");
-                List<Account.API.Model.Account> accountList = await this._accountService.ListAccountsAsync();
+                List<Account.API.Model.Account> accountList = await this._accountService.ListAccountsAsync();                              
 
-                var resultList = this._mapper.Map<List<AccountViewModel>>(accountList);
-
-                return this.Ok(resultList);
+                return this.Ok(accountList);
 
             }
             catch (Exception ex)
@@ -60,10 +58,10 @@ namespace Account.API.Controllers
         }
 
         [HttpPost]
-        [Route("account")]
+        [Route("account/{Id}/{loan}/accountType")]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> CreateAccountAsync(Guid Id, double loan)
+        public async Task<ActionResult> CreateAccountAsync(Guid Id, double loan, int accountType)
         {
             try
             {
@@ -74,29 +72,31 @@ namespace Account.API.Controllers
                     return this.BadRequest("The credit exceeds allowed amount.");
                 }
 
-                var checkUserSalaryPackage = new RequestToConfirmUserAccountLoandEvent(Id, loan);
+                var checkUserSalaryPackage = new RequestToConfirmUserAccountLoandEvent(Id, loan, accountType);
+                var trackingEventId = Guid.NewGuid();
+                checkUserSalaryPackage.EventIdSynchronizationId = trackingEventId;
 
-                this._eventBusSynchronizationService.HasSynchronizationFinish = false;
+                this._eventBusSynchronizationService.EventSynchronizationList.Add(trackingEventId, new SynchronizationDetails { HasSynchronizationFinish = false });
                 await this._accountManagementIntegrationEventService.SaveEventAndAccountContextChangesAsync(checkUserSalaryPackage);
                 await this._accountManagementIntegrationEventService.PublishThroughEventBusAsync(checkUserSalaryPackage);
 
                 // wait to synchronize all events 
-                while (!this._eventBusSynchronizationService.HasSynchronizationFinish)
-                {
+                await this._eventBusSynchronizationService.CheckIFHasSynchronizationFinish(trackingEventId);
 
-                }
+                // find the sychnronizaiton evnet
+                var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(trackingEventId)).FirstOrDefault().Value;
 
-                if (this._eventBusSynchronizationService.HttpStatusCode.Equals(HttpStatusCode.NotFound))
+                if (eventObject.HttpStatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    return this.BadRequest(this._eventBusSynchronizationService.Message);
+                    return this.BadRequest(eventObject.Message);
                 }
-                else if(this._eventBusSynchronizationService.HttpStatusCode.Equals(HttpStatusCode.Created))
+                else if(eventObject.HttpStatusCode.Equals(HttpStatusCode.Created))
                 {
-                    return this.CreatedAtAction(null, this._eventBusSynchronizationService.NewCreatedAccountId.ToString());
+                    return this.CreatedAtAction(null, eventObject.NewCreatedAccountId.ToString());
                 }       
-                else if(this._eventBusSynchronizationService.HttpStatusCode.Equals(HttpStatusCode.BadRequest))
+                else if(eventObject.HttpStatusCode.Equals(HttpStatusCode.BadRequest))
                 {
-                    return this.CreatedAtAction(null, this._eventBusSynchronizationService.NewCreatedAccountId.ToString());
+                    return this.BadRequest( eventObject.Message);
                 }
                 else
                 {

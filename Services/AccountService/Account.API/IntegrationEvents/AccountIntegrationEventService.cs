@@ -53,7 +53,7 @@ namespace Account.API.IntegrationEvents
 
         public async Task SaveEventAndAccountContextChangesAsync(IntegrationEvent evt)
         {
-            _logger.LogInformation("----- CatalogIntegrationEventService - Saving changes and integrationEvent: {IntegrationEventId}", evt.Id);
+            _logger.LogInformation("----- AccountIntegrationEventService - Saving changes and integrationEvent: {IntegrationEventId}", evt.Id);
 
             //Use of an EF Core resiliency strategy when using multiple DbContexts within an explicit BeginTransaction():
             //See: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency            

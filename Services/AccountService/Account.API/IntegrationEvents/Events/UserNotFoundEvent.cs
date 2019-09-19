@@ -10,12 +10,16 @@ namespace Account.API.IntegrationEvents.Events
     {
         public Guid UserId { get; set; }
 
-        public double loan { get; set; }
+       
+        public double Loan { get; set; }
 
-        public UserNotFoundEvent(Guid id, double loan)
+        public int AccountType { get; set; }
+
+        public UserNotFoundEvent(Guid id, double loan, int accountType)
         {
             this.UserId = id;
-            this.loan = loan;
+            this.Loan = loan;
+            this.AccountType = accountType;
         }
     }
    

@@ -8,12 +8,20 @@ namespace Account.API.Services
 {
     public interface IEventBusSynchronizationService
     {
-        bool HasSynchronizationFinish { get; set; }
+        Task CheckIFHasSynchronizationFinish(Guid eventId);
 
-        string Message { get; set; }
-
-        HttpStatusCode HttpStatusCode {get;set;}
-
-        Guid NewCreatedAccountId { get; set; }
+        Dictionary<Guid, SynchronizationDetails> EventSynchronizationList { get; set; }
     }
+
+    public class SynchronizationDetails
+    {
+        public bool HasSynchronizationFinish { get; set; }
+
+        public string Message { get; set; }
+
+        public HttpStatusCode HttpStatusCode { get; set; }
+
+        public Guid NewCreatedAccountId { get; set; }
+    }
+
 }

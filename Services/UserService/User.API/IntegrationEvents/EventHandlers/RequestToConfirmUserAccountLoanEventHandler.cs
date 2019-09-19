@@ -43,13 +43,14 @@ namespace UserManagement.API.IntegrationEvents.EventHandlers
                     if(user.MonthlySalary - user.MonthlyExpenses < 1000)
                     {
                         var rejectIntegrationEvent = new RejectAccountLoanForUserEvent(@event.UserId, @event.loan);
+                        rejectIntegrationEvent.EventIdSynchronizationId = @event.EventIdSynchronizationId;
                         await this._userIntegrationEventService.SaveEventAndUserContextChangesAsync(rejectIntegrationEvent);
                         await this._userIntegrationEventService.PublishThroughEventBusAsync(rejectIntegrationEvent);
                     }
                     else
                     {
                         var confirmedIntegratonEvent = new ConfirmUserAccountForLoanIntegrationEvent(@event.UserId, @event.loan);
-
+                        confirmedIntegratonEvent.EventIdSynchronizationId = @event.EventIdSynchronizationId;
                         await this._userIntegrationEventService.SaveEventAndUserContextChangesAsync(confirmedIntegratonEvent);
                         await this._userIntegrationEventService.PublishThroughEventBusAsync(confirmedIntegratonEvent);
                     }
@@ -57,6 +58,8 @@ namespace UserManagement.API.IntegrationEvents.EventHandlers
                 else
                 {
                     var usernotfoundEvent = new UserNotFoundEvent(@event.UserId, @event.loan);
+                    usernotfoundEvent.EventIdSynchronizationId = @event.EventIdSynchronizationId;
+
                     await this._userIntegrationEventService.SaveEventAndUserContextChangesAsync(usernotfoundEvent);
                     await this._userIntegrationEventService.PublishThroughEventBusAsync(usernotfoundEvent);
                 }          

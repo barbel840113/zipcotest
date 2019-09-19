@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UserManagement.API.IntegrationEvents.EventHandlers
+namespace Account.API.IntegrationEvents.EventHandlers
 {
     public class RejectAccountLoanForUserEvent : IntegrationEvent
     {
         public Guid UserId { get; set; }
 
-        public double loan { get; set; }
+        public double Loan { get; set; }
 
-        public RejectAccountLoanForUserEvent(Guid id, double loan)
+        public int AccountType { get; set; }
+
+        public RejectAccountLoanForUserEvent(Guid id, double loan, int accountType)
         {
             this.UserId = id;
-            this.loan = loan;
+            this.Loan = loan;
+            this.AccountType = accountType;
         }
     }
 }

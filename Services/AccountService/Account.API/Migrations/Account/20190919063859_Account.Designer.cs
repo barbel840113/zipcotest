@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Account.API.Migrations.Account
 {
     [DbContext(typeof(AccountContext))]
-    [Migration("20190919003518_Account")]
+    [Migration("20190919063859_Account")]
     partial class Account
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,8 @@ namespace Account.API.Migrations.Account
 
                     b.Property<string>("AccountName")
                         .IsRequired();
+
+                    b.Property<int>("AccountType");
 
                     b.Property<decimal>("Loan");
 

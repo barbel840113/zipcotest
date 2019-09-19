@@ -1,28 +1,28 @@
-﻿using Account.API.Infrastructure.DbContexts;
-using Account.API.IntegrationEvents.Events;
-using Account.API.Services;
-using EventBusLibrary.Interfaces;
+﻿using EventBusLibrary.Interfaces;
 using Microsoft.Extensions.Logging;
-using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Account.API.IntegrationEvents.EventHandlers;
+using Account.API.Infrastructure.DbContexts;
+using Account.API.Services;
+using Serilog.Context;
 
 namespace Account.API.IntegrationEvents.EventHandlers
 {
-    public class UserNotFoundEventHandler : IIntegrationEventHandler<UserNotFoundEvent>
+    public class RejectAccountLoanForUserEventHandler : IIntegrationEventHandler<RejectAccountLoanForUserEvent>
     {
         private readonly AccountContext _accountContext;
         private readonly IAccountIntegrationEventService _accountIntegrationEventService;
-        private readonly ILogger<UserNotFoundEventHandler> _logger;
+        private readonly ILogger<RejectAccountLoanForUserEventHandler> _logger;
         private readonly IEventBusSynchronizationService _eventBusSynchronizationService;
 
-        public UserNotFoundEventHandler(
+        public RejectAccountLoanForUserEventHandler(
             AccountContext accountContext,
             IAccountIntegrationEventService userIntegrationEventService,
             IEventBusSynchronizationService eventBusSynchronizationService,
-            ILogger<UserNotFoundEventHandler> logger)
+            ILogger<RejectAccountLoanForUserEventHandler> logger)
         {
             _accountContext = accountContext;
             _accountIntegrationEventService = userIntegrationEventService;
@@ -30,7 +30,7 @@ namespace Account.API.IntegrationEvents.EventHandlers
             this._eventBusSynchronizationService = eventBusSynchronizationService;
         }
 
-        public async Task Handle(UserNotFoundEvent @event)
+        public async Task Handle(RejectAccountLoanForUserEvent @event)
         {
             using (LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{Program.ProgramName}"))
             {
@@ -39,9 +39,10 @@ namespace Account.API.IntegrationEvents.EventHandlers
                 await Task.Delay(1);
                 var eventObject = this._eventBusSynchronizationService.EventSynchronizationList.Where(x => x.Key.Equals(@event.EventIdSynchronizationId)).FirstOrDefault().Value;
                 eventObject.HasSynchronizationFinish = true;
-                eventObject.Message = "User not found";
-                eventObject.HttpStatusCode = System.Net.HttpStatusCode.NotFound;
+                eventObject.Message = "User has not enought money";
+                eventObject.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
             }
         }
     }
+  
 }

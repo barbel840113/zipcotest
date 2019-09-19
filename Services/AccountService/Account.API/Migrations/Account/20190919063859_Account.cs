@@ -14,7 +14,8 @@ namespace Account.API.Migrations.Account
                     Id = table.Column<Guid>(nullable: false),
                     AccountName = table.Column<string>(nullable: false),
                     Loan = table.Column<decimal>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    AccountType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

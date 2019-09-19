@@ -11,6 +11,9 @@ namespace EventBusLibrary.Events
         public Guid Id { get; private set; }
 
         [JsonProperty]
+        public Guid EventIdSynchronizationId { get; set; }
+
+        [JsonProperty]
         public DateTime CreationDate { get; set; }
 
         [JsonConstructor]
@@ -23,6 +26,6 @@ namespace EventBusLibrary.Events
         {
             this.Id = Guid.NewGuid();
             this.CreationDate = DateTime.Now;                
-        }
+        }      
     }
 }

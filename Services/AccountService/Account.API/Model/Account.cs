@@ -20,5 +20,8 @@ namespace Account.API.Model
 
         [Required]
         public Guid UserId { get; set; }
+
+        [Required]
+        public int AccountType { get; set; }
     }
 }

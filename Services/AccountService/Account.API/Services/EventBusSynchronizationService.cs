@@ -8,9 +8,30 @@ namespace Account.API.Services
 {
     public class EventBusSynchronizationService : IEventBusSynchronizationService
     {
-        public bool HasSynchronizationFinish { get; set; }
-        public string Message {get; set; }
-        public HttpStatusCode HttpStatusCode { get; set ; }
-        public Guid NewCreatedAccountId { get; set; }
+
+        public EventBusSynchronizationService()
+        {
+            this.EventSynchronizationList = new Dictionary<Guid, SynchronizationDetails>();
+        }
+      
+        public Dictionary<Guid, SynchronizationDetails> EventSynchronizationList { get; set; }
+
+        public async Task CheckIFHasSynchronizationFinish(Guid eventId)
+        {
+            var findEvent = this.EventSynchronizationList.Where(x => x.Key.Equals(eventId)).FirstOrDefault();
+
+            var value = findEvent.Value;
+           
+            while (!value.HasSynchronizationFinish)
+            { 
+                // enough to synchronize
+                await Task.Delay(5000);
+                if (!value.HasSynchronizationFinish)
+                {
+                    value.HasSynchronizationFinish = true;
+                }
+
+            }
+        }       
     }
 }

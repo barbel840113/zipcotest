@@ -170,7 +170,7 @@ namespace Account.API.Extensions
 
             services.AddTransient<IAccountIntegrationEventService, AccountIntegrationEventService>();
             services.AddTransient<IAccountService, AccountService>(); // Account Service
-            services.AddScoped<IEventBusSynchronizationService, EventBusSynchronizationService>(); // Synchronization Service
+            services.AddSingleton<IEventBusSynchronizationService, EventBusSynchronizationService>(); // Synchronization Service
 
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -229,6 +229,7 @@ namespace Account.API.Extensions
             services.AddSingleton<IEventBusSubscriptionManager, SubscriptionManagerInMemory>();
             services.AddTransient<ConfirmUserAccountForLoanIntegrationEventHandler>();
             services.AddTransient<UserNotFoundEventHandler>();
+            services.AddTransient<RejectAccountLoanForUserEventHandler>();
 
             return services;
         }

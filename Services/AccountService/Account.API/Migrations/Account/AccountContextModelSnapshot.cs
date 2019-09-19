@@ -27,6 +27,8 @@ namespace Account.API.Migrations.Account
                     b.Property<string>("AccountName")
                         .IsRequired();
 
+                    b.Property<int>("AccountType");
+
                     b.Property<decimal>("Loan");
 
                     b.Property<Guid>("UserId");

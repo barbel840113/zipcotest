@@ -89,8 +89,8 @@ namespace Account.API
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
+             eventBus.Subscribe<ConfirmUserAccountForLoanIntegrationEvent, ConfirmUserAccountForLoanIntegrationEventHandler>();
+             eventBus.Subscribe<UserNotFoundEvent, UserNotFoundEventHandler>();
         }
     }
 }

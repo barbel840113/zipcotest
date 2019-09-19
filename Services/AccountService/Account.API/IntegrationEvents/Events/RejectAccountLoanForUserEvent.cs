@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UserManagement.API.IntegrationEvents.Events
+namespace UserManagement.API.IntegrationEvents.EventHandlers
 {
-    public class OrderStatusChangedToPaidIntegrationEvent : IntegrationEvent
+    public class RejectAccountLoanForUserEvent : IntegrationEvent
     {
         public Guid UserId { get; set; }
 
         public double loan { get; set; }
 
-        public OrderStatusChangedToPaidIntegrationEvent(Guid id, double loan)
+        public RejectAccountLoanForUserEvent(Guid id, double loan)
         {
             this.UserId = id;
             this.loan = loan;

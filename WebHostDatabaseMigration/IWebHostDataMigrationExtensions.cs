@@ -51,14 +51,8 @@ namespace Microsoft.AspNetCore.Hosting
         private static void InvokeDbSeeder<TContext>(Action<TContext, IServiceProvider> seeder, TContext context, IServiceProvider serviceProvider)
             where TContext : DbContext
         {
-           
-            if (context.Database.CanConnect()){
 
-            }
-            else
-            {
-                context.Database.Migrate();
-            }          
+            context.Database.Migrate();
             seeder.Invoke(context, serviceProvider);
         }
     }

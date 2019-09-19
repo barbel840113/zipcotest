@@ -26,6 +26,7 @@ using EventBusRabbitMQLibrary;
 using EventBusLibrary.Subscriptions;
 using EventBusLibrary.Interfaces;
 using AutoMapper;
+using UserManagement.API.IntegrationEvents.EventHandlers;
 
 namespace UserManagement.API.Extensions
 {
@@ -225,8 +226,7 @@ namespace UserManagement.API.Extensions
             });
 
             services.AddSingleton<IEventBusSubscriptionManager, SubscriptionManagerInMemory>();
-            //services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            //services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
+            services.AddTransient<RequestToConfirmUserAccountLoanEventHandler>();           
 
             return services;
         }

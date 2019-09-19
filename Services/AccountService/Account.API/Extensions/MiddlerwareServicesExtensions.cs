@@ -168,8 +168,9 @@ namespace Account.API.Extensions
             services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
                 sp => (DbConnection c) => new IntegrationEventLogService(c));
 
-            services.AddTransient<AccountIntegrationEventService, AccountIntegrationEventService>();
-            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAccountIntegrationEventService, AccountIntegrationEventService>();
+            services.AddTransient<IAccountService, AccountService>(); // Account Service
+            services.AddScoped<IEventBusSynchronizationService, EventBusSynchronizationService>(); // Synchronization Service
 
             services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
             {
@@ -226,8 +227,8 @@ namespace Account.API.Extensions
             });
 
             services.AddSingleton<IEventBusSubscriptionManager, SubscriptionManagerInMemory>();
-            services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
+            services.AddTransient<ConfirmUserAccountForLoanIntegrationEventHandler>();
+            services.AddTransient<UserNotFoundEventHandler>();
 
             return services;
         }
@@ -236,7 +237,7 @@ namespace Account.API.Extensions
         {
             var mappingConfiguration = new MapperConfiguration(mc =>
             {
-                mc.CreateMap<List<Account.API.Model.Account>, List<AccountViewModel>>();            
+                mc.CreateMap<List<Account.API.Model.Account>, List<AccountViewModel>>();                
             });
 
             service.AddSingleton(mappingConfiguration.CreateMapper());

@@ -83,14 +83,13 @@ namespace UserManagement.API.API
               });          
 
 
-            ConfigureEventBus(app);
+            this.ConfigureEventBus(app);
         }
 
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
+            eventBus.Subscribe<RequestToConfirmUserAccountLoandEvent, RequestToConfirmUserAccountLoanEventHandler>();          
         }
     }
 }

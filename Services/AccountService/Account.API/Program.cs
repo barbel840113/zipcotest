@@ -32,8 +32,13 @@ namespace Account.API
                 host.MigrateDbContext<AccountContext>((context, services) =>
                 {
                     // Seed Database if apply
-                })
-                .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
+                });
+
+                host.MigrateDbContext<IntegrationEventLogContext>((context, services) =>
+                {
+                        // Seed Database if apply
+                });
+
 
                 Log.Information("Starting web host ({ApplicationContext})...", ProgramName);
                 host.Run();

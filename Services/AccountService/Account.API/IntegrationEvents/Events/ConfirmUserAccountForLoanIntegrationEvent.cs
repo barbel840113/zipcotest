@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Account.API.IntegrationEvents.Events
 {
-    public class OrderStatusChangedToPaidIntegrationEvent : IntegrationEvent
+    public class ConfirmUserAccountForLoanIntegrationEvent : IntegrationEvent
     {
         public Guid UserId { get; set; }
 
         public double loan { get; set; }
 
-        public OrderStatusChangedToPaidIntegrationEvent(Guid id, double loan)
+        public ConfirmUserAccountForLoanIntegrationEvent(Guid id, double loan)
         {
             this.UserId = id;
             this.loan = loan;

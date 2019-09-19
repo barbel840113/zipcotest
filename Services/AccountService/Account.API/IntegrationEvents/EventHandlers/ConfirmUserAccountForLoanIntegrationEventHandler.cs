@@ -10,24 +10,24 @@ using System.Threading.Tasks;
 
 namespace Account.API.IntegrationEvents.EventHandlers
 {
-    public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler :
-        IIntegrationEventHandler<OrderStatusChangedToAwaitingValidationIntegrationEvent>
+    public class ConfirmUserAccountForLoanIntegrationEventHandler :
+        IIntegrationEventHandler<ConfirmUserAccountForLoanIntegrationEvent>
     {
         private readonly AccountContext _accountContext;
-        private readonly IAccountManagementIntegrationEventService _accountIntegrationEventService;
-        private readonly ILogger<OrderStatusChangedToAwaitingValidationIntegrationEventHandler> _logger;
+        private readonly IAccountIntegrationEventService _accountIntegrationEventService;
+        private readonly ILogger<ConfirmUserAccountForLoanIntegrationEventHandler> _logger;
 
-        public OrderStatusChangedToAwaitingValidationIntegrationEventHandler(
+        public ConfirmUserAccountForLoanIntegrationEventHandler(
             AccountContext accountContext,
-            IAccountManagementIntegrationEventService userIntegrationEventService,
-            ILogger<OrderStatusChangedToAwaitingValidationIntegrationEventHandler> logger)
+            IAccountIntegrationEventService userIntegrationEventService,
+            ILogger<ConfirmUserAccountForLoanIntegrationEventHandler> logger)
         {
             _accountContext = accountContext;
             _accountIntegrationEventService = userIntegrationEventService;
             _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
         }
 
-        public async Task Handle(OrderStatusChangedToAwaitingValidationIntegrationEvent @event)
+        public async Task Handle(ConfirmUserAccountForLoanIntegrationEvent @event)
         {
             using (LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{Program.ProgramName}"))
             {
@@ -36,10 +36,10 @@ namespace Account.API.IntegrationEvents.EventHandlers
                 //var confirmedIntegrationEvent = confirmedOrderStockItems.Any(c => !c.HasStock)
                 //    ? (IntegrationEvent)new OrderStockRejectedIntegrationEvent(@event.OrderId, confirmedOrderStockItems)
                 //    : new OrderStockConfirmedIntegrationEvent(@event.OrderId);
-                var confirmedIntegrationEvent = new OrderStatusChangedToPaidIntegrationEvent(@event.UserId, @event.loan);
+                //var confirmedIntegrationEvent = new OrderStatusChangedToPaidIntegrationEvent(@event.UserId, @event.loan);
 
-                await this._accountIntegrationEventService.SaveEventAndAccountContextChangesAsync(confirmedIntegrationEvent);
-                await this._accountIntegrationEventService.PublishThroughEventBusAsync(confirmedIntegrationEvent);
+                //await this._accountIntegrationEventService.SaveEventAndAccountContextChangesAsync(confirmedIntegrationEvent);
+                //await this._accountIntegrationEventService.PublishThroughEventBusAsync(confirmedIntegrationEvent);
 
             }
         }

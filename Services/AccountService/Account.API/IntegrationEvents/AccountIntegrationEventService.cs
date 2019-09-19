@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Account.API.IntegrationEvents
 {
-    public class AccountIntegrationEventService : IAccountManagementIntegrationEventService
+    public class AccountIntegrationEventService : IAccountIntegrationEventService
     {
         private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
         private readonly IEventBus _eventBus;

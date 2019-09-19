@@ -13,22 +13,16 @@ namespace Account.API.Services
     public class AccountService : IAccountService
     {
         private readonly AccountContext _accountContext;
-        private readonly IAccountManagementIntegrationEventService _accountManagementIntegrationEventService;
 
-        public AccountService(AccountContext accountContext,
-            IAccountManagementIntegrationEventService accountIntegrationEventService )
+
+        public AccountService(AccountContext accountContext)
         {
-            this._accountContext = accountContext;
-            this._accountManagementIntegrationEventService = accountIntegrationEventService;
+            this._accountContext = accountContext;          
         }
 
         public async Task<Guid> CreateAccountForAsync(Guid id, double loan)
         {
-
-            var checkUserSalaryPackage = new OrderStatusChangedToPaidIntegrationEvent(id, loan);
-
-            await this._accountManagementIntegrationEventService.SaveEventAndAccountContextChangesAsync(checkUserSalaryPackage);
-            await this._accountManagementIntegrationEventService.PublishThroughEventBusAsync(checkUserSalaryPackage);
+          
 
             return Guid.NewGuid();
         }

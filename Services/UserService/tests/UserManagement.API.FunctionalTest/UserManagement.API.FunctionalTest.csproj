@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ApplicatonCore\EventBus\IntegrationEventDB\IntegrationEventDB.csproj" />
     <ProjectReference Include="..\..\User.API\UserManagement.API.csproj" />
   </ItemGroup>
 

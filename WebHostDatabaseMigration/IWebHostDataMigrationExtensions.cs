@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
@@ -49,7 +51,14 @@ namespace Microsoft.AspNetCore.Hosting
         private static void InvokeDbSeeder<TContext>(Action<TContext, IServiceProvider> seeder, TContext context, IServiceProvider serviceProvider)
             where TContext : DbContext
         {
-            context.Database.Migrate();
+           
+            if (context.Database.CanConnect()){
+
+            }
+            else
+            {
+                context.Database.Migrate();
+            }          
             seeder.Invoke(context, serviceProvider);
         }
     }

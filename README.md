@@ -3,8 +3,8 @@ ZipCo Test
 
 # This is the Zip Co assessment.
 
-# Architecture of the Project
-
+# Description of the Project
+ 
   - This Project contains two main services such as Account and UserMangement Services. The project is based on microservices architecture     which was inspired from Microsoft. 
   - Both Services are running on the dockers compose via visual studio container tool. There is also library such as ApplicationCore where     all shared components or library are hosted. This project uses Event-Driven Architecture with combination of microservices. 
   - I've implemented Event Bus by using RabbitMQ and MSSQL which are also part of the solution and are hosted inthe docker as well. 
